@@ -1,0 +1,27 @@
+name:                tapf-classes
+version:             0.1.0.0
+synopsis:            Demonstration of Haskell's typeclasses implementation 
+                     using dictonary-passing
+homepage:            https://github.com/pbv/tapf-classes.git
+license:             MIT
+license-file:        LICENSE
+author:              Pedro Vasconcelos
+maintainer:          pbv@dcc.fc.up.pt
+copyright:           2017 Pedro Vasconcelos
+category:            Teaching
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     TAPF.Typeclasses1
+                       TAPF.Typeclasses2
+                       TAPF.Typeclasses3
+                       TAPF.Typeclasses4
+  build-depends:       base >= 4.7 && < 5
+  default-language:    Haskell2010
+
+source-repository head
+  type:     git
+  location: https://github.com/githubuser/tapf-classes
