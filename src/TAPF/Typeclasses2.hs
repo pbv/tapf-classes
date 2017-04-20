@@ -49,5 +49,5 @@ twice' :: NumD a -> a -> a
 twice' numD x = add_ numD x x
 
 sum' :: NumD a -> [a] -> a
-sum' numD []     = fromInt_ numD 0
+sum' numD []     = fromInt_ numD (0 :: Int)
 sum' numD (x:xs) = add_ numD x (sum' numD xs)
