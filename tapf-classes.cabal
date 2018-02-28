@@ -1,6 +1,6 @@
 name:                tapf-classes
 version:             0.2.0.0
-synopsis:            Demonstration of Haskell's typeclasses 
+synopsis:            Encoding Haskell typeclasses using dictionaries
 homepage:            https://github.com/pbv/tapf-classes.git
 license:             MIT
 license-file:        LICENSE
@@ -18,10 +18,10 @@ library
                        TAPF.Typeclasses2
                        TAPF.Typeclasses3
                        TAPF.Typeclasses4
-                       TAPF.Tautology
+                       TAPF.Typeclasses5                       
   build-depends:       base >= 4.7 && < 5
   default-language:    Haskell2010
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/tapf-classes
+  location: https://github.com/pbv/tapf-classes

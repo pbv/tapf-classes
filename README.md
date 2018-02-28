@@ -1,8 +1,7 @@
 
 # TAPF Lectures
 
-Some modules to illustrate Haskell's typeclasses implemented using
-dictionary passing method.
-
+Some modules to illustrate the encoding of Haskell typeclasses
+using dictionary passing.
 
 Pedro Vasconcelos, 2017
