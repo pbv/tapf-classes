@@ -10,7 +10,7 @@
 -}
 {-# LANGUAGE FlexibleInstances #-}
 
-module TAPF.Tautology where
+module TAPF.Typeclasses5 where
 
 class Testable prop where
   taut :: prop -> Bool
@@ -20,7 +20,6 @@ instance Testable Bool where
 
 instance Testable a => Testable (Bool -> a) where
   taut f = taut (f False) && taut (f True)
-
 
 -- helper function: boolean implication 
 implies :: Bool -> Bool -> Bool
