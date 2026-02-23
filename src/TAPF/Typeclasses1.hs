@@ -1,7 +1,7 @@
 
 module TAPF.Typeclasses1 where
 
-import           Prelude hiding (Show, show, print)
+import           Prelude hiding (Show, show, showList, print)
 import qualified Prelude (show)
 
 -- a simple typeclass for converting to string
@@ -43,5 +43,5 @@ print2 (x,y) = putStrLn (show x ++ show y)
 
 print2' :: (ShowD a, ShowD b) -> (a,b) -> IO ()
 print2' (dic1, dic2) (x,y)
-  = putStrLn ((show_ dic1 x) ++ (show_ dic2 y))
+  = putStrLn (show_ dic1 x ++ show_ dic2 y)
 

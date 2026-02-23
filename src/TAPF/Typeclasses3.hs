@@ -19,7 +19,7 @@ instance Eq Int where
 
 -- an overloaded function
 member :: Eq a => a -> [a] -> Bool
-member x [] = False
+member _ [] = False
 member x (y:ys) = x`eq`y  || member x ys
 
 
@@ -37,7 +37,7 @@ eqDBool = EqD (\x y -> if x then y else not y)
 
 
 member' :: EqD a -> a -> [a] -> Bool
-member' eqD x [] = False
+member' _eqD x [] = False
 member' eqD x (y:ys) = eq_ eqD x y || member' eqD x ys
 
 
@@ -49,7 +49,7 @@ instance (Eq a, Eq b) => Eq (a,b) where
 
 eqDPair :: (EqD a, EqD b) -> EqD (a,b)
 eqDPair (EqD eqA, EqD eqB)
-  = EqD (\(x,y) (x',y') -> eqA x x' && eqB y y') 
+  = EqD { eq_ = \(x, y) (x', y') -> eqA x x' && eqB y y' } 
 
 
 instance Eq a => Eq [a] where

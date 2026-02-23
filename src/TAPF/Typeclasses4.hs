@@ -1,7 +1,7 @@
 
 module TAPF.Typeclasses4 where
 
-import           Prelude hiding (Show, show, print)
+import           Prelude hiding (Show, show, showList, print)
 import qualified Prelude (show)
 
 -- a simple typeclass for converting to string
@@ -48,26 +48,30 @@ showDList d
         showList [x] = show_ d x
         showList (x:xs) = show_ d x ++ "," ++ showList xs
 
+showDPair :: ShowD a -> ShowD b -> ShowD (a,b)
+showDPair d1 d2 = ShowD { show_ = \(a,b) -> "("++show_ d1 a ++ "," ++ show_ d2 b ++")"}
+
+
 
 
 -- this function requires a type signature
 -- (polymorphic recursion)
 nested :: Show a => Int -> a -> String
-nested 0 x       = show x
-nested n x | n>0 = nested (n-1) (x,x)
+nested 0 x  = show x
+nested n x  = nested (n-1) (x,x)
 
 
 -- testing
 test :: IO ()
 test = do
-  n <- getLine
-  putStrLn (nested (read n) 'A')
+  str <- getLine
+  putStrLn (nested (read str) 'A')
   
 
 -- dictionary translation
 nested' :: ShowD a -> Int -> a -> String
-nested' d 0 x       = show_ d x
-nested' d n x | n>0 = nested' (showDList d) (n-1) (replicate n x)
+nested' d 0 x = show_ d x
+nested' d n x = nested' (showDPair d d) (n-1) (x,x)
 
 test' :: IO ()
 test' = do
