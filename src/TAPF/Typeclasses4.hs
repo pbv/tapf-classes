@@ -1,7 +1,7 @@
 
 module TAPF.Typeclasses4 where
 
-import           Prelude hiding (Show, show, showList, print)
+import           Prelude hiding (Show, show, showList)
 import qualified Prelude (show)
 
 -- a simple typeclass for converting to string
@@ -19,7 +19,7 @@ instance Show Bool where
   show b = if b then "True" else "False"
 
 instance Show a => Show [a] where
-  show xs = "[" ++ showList xs ++ "]"
+  show ys = "[" ++ showList ys ++ "]"
     where showList [] = ""
           showList [x] = show x
           showList (x:xs) = show x ++ "," ++ showList xs
@@ -27,6 +27,7 @@ instance Show a => Show [a] where
 
 instance (Show a, Show b)  => Show (a,b) where
   show (x,y) = "(" ++ show x ++ "," ++ show y ++ ")"
+
 -----------------------------------------------------------------------
 -- dictionary translation
 -----------------------------------------------------------------------
@@ -49,31 +50,33 @@ showDList d
         showList (x:xs) = show_ d x ++ "," ++ showList xs
 
 showDPair :: ShowD a -> ShowD b -> ShowD (a,b)
-showDPair d1 d2 = ShowD { show_ = \(a,b) -> "("++show_ d1 a ++ "," ++ show_ d2 b ++")"}
+showDPair d1 d2
+  = ShowD { show_ = \(a,b) -> "("++show_ d1 a ++ "," ++ show_ d2 b ++")"}
 
 
 
-
--- this function requires a type signature
--- (polymorphic recursion)
+-- An example that shows that it may be impossible
+-- to statically know every type that a polymorphic function is used at.
+-- Requires polymorphic recursion so type signature is mandatory
 nested :: Show a => Int -> a -> String
 nested 0 x  = show x
 nested n x  = nested (n-1) (x,x)
 
-
--- testing
+-- This IO action will nest a character `n' times
+-- where n is read from stdin; hence the actual runtime type
+-- will not be known statically
 test :: IO ()
 test = do
-  str <- getLine
-  putStrLn (nested (read str) 'A')
+  n <- readLn
+  putStrLn (nested n 'A')
   
-
--- dictionary translation
+-- In the translation the dictionary is computed at runtime;
+-- there is no way to monomorphize this
 nested' :: ShowD a -> Int -> a -> String
 nested' d 0 x = show_ d x
 nested' d n x = nested' (showDPair d d) (n-1) (x,x)
 
 test' :: IO ()
 test' = do
-  n <- getLine
-  putStrLn (nested' showDChar (read n) 'A')
+  n <- readLn
+  putStrLn (nested' showDChar n 'A')

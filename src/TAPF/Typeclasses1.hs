@@ -1,7 +1,7 @@
 
 module TAPF.Typeclasses1 where
 
-import           Prelude hiding (Show, show, showList, print)
+import           Prelude hiding (Show, show)
 import qualified Prelude (show)
 
 -- a simple typeclass for converting to string
@@ -26,22 +26,12 @@ showDInt = ShowD { show_ = Prelude.show -- Prelude implementation
                  }
 
 
--- overloaded printing function
--- note that `print' is overloaded but `putStrLn' is not:
--- putStrLn :: String -> IO ()
-
-print :: Show a => a -> IO ()
-print x = putStrLn (show x)
+-- overloaded function
+greet :: Show a => a -> String
+greet x = "Hello " ++ show x
 
 -- dictionary passing version of the above
-print' :: ShowD a -> a -> IO ()
-print' showD x = putStrLn (show_ showD x) 
+greet' :: ShowD a -> a -> String
+greet' showD x = "Hello " ++ show_ showD x
 
-
-print2 :: (Show a, Show b) => (a,b) -> IO ()
-print2 (x,y) = putStrLn (show x ++ show y)
-
-print2' :: (ShowD a, ShowD b) -> (a,b) -> IO ()
-print2' (dic1, dic2) (x,y)
-  = putStrLn (show_ dic1 x ++ show_ dic2 y)
 

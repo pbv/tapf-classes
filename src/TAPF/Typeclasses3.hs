@@ -16,7 +16,6 @@ instance Eq Bool where
 instance Eq Int where
   eq = (Prelude.==)
 
-
 -- an overloaded function
 member :: Eq a => a -> [a] -> Bool
 member _ [] = False
@@ -37,7 +36,7 @@ eqDBool = EqD (\x y -> if x then y else not y)
 
 
 member' :: EqD a -> a -> [a] -> Bool
-member' _eqD x [] = False
+member' _eqD _ [] = False
 member' eqD x (y:ys) = eq_ eqD x y || member' eqD x ys
 
 
